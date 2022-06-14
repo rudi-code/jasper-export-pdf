@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreport_terlapor" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" uuid="587a1883-1f9e-4102-a780-7ce2adcfbc3e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="datamart_kriminalitas_stagging"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="id_person" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.tipe_dok tipe_dokumen
+    ,nomor_dokumen
+    ,jenis_kejahatan_pelanggaran
+    ,tgl_dok
+    ,kendaraan
+    ,klasifikasi
+    ,denda
+    ,jenis_identitas_disita
+    ,satker_mengeluarkan
+    ,a.[sumber_data]
+  FROM [datamart_kriminalitas_stagging].[dbo].[person_document_kejahatan_terlibat] a with (nolock)
+  left join datamart_kriminalitas_stagging.dbo.document b with (nolock)
+  on a.id_dok = b.id_dok
+  left join datamart_kriminalitas_stagging.dbo.document_extend_korlantas c with (nolock)
+  on a.id_dok = c.id_dok
+  where a.tipe_dok = 'Surat Tilang' and id_person =  $P{id_person}]]>
+	</queryString>
+	<field name="tipe_dokumen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipe_dokumen"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipe_dokumen"/>
+	</field>
+	<field name="nomor_dokumen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomor_dokumen"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomor_dokumen"/>
+	</field>
+	<field name="jenis_kejahatan_pelanggaran" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jenis_kejahatan_pelanggaran"/>
+		<property name="com.jaspersoft.studio.field.label" value="jenis_kejahatan_pelanggaran"/>
+	</field>
+	<field name="tgl_dok" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tgl_dok"/>
+		<property name="com.jaspersoft.studio.field.label" value="tgl_dok"/>
+	</field>
+	<field name="kendaraan" class="java.sql.Clob">
+		<property name="com.jaspersoft.studio.field.name" value="kendaraan"/>
+		<property name="com.jaspersoft.studio.field.label" value="kendaraan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datamart_kriminalitas_stagging.dbo.document_extend_korlantas"/>
+	</field>
+	<field name="klasifikasi" class="java.sql.Clob">
+		<property name="com.jaspersoft.studio.field.name" value="klasifikasi"/>
+		<property name="com.jaspersoft.studio.field.label" value="klasifikasi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="datamart_kriminalitas_stagging.dbo.document_extend_korlantas"/>
+	</field>
+	<field name="denda" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="denda"/>
+		<property name="com.jaspersoft.studio.field.label" value="denda"/>
+	</field>
+	<field name="jenis_identitas_disita" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jenis_identitas_disita"/>
+		<property name="com.jaspersoft.studio.field.label" value="jenis_identitas_disita"/>
+	</field>
+	<field name="satker_mengeluarkan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="satker_mengeluarkan"/>
+		<property name="com.jaspersoft.studio.field.label" value="satker_mengeluarkan"/>
+	</field>
+	<field name="sumber_data" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sumber_data"/>
+		<property name="com.jaspersoft.studio.field.label" value="sumber_data"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="0" y="0" width="80" height="30" uuid="6e018f3b-ff39-4ef9-afe0-216130d0b959">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0595e43e-6d55-45dc-8dbe-819114f0f389"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipe_dokumen}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="80" y="0" width="60" height="30" uuid="c9c99ec9-bb44-44b7-a1b7-19a09303b3ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7757e61c-618e-47b9-80a1-ff80c00a3ef0"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_dok}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="140" y="0" width="70" height="30" uuid="8a62e271-b372-45e9-8081-623398d56130">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1bb4eca6-ead4-44be-8610-f3567656d74d"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{satker_mengeluarkan}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="430" y="0" width="80" height="30" uuid="126e1513-a501-4978-9eba-fe6c2a42549d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7ab17a93-d215-43ea-97e6-23b0e6f2df44"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_identitas_disita}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="510" y="0" width="50" height="30" uuid="972cf076-35c8-4e55-b82a-ac9682c4e48f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a382f2e9-1cbf-4384-b609-923f09753132"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumber_data}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="210" y="0" width="80" height="30" uuid="1460bdfe-c02f-4692-a5ad-dc19087c2047">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46251768-f7b1-45e5-8588-456694bbf6b8"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kendaraan}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="290" y="0" width="70" height="30" uuid="4fccfc08-8898-4970-bdf0-2deb23a71695">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="835b2226-acc8-4dfb-92a2-51205d5c9a34"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{klasifikasi}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="360" y="0" width="70" height="30" uuid="fa3d0fce-b52a-4ebb-9d90-03d48692e76c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cd02781e-5bc9-4d16-aff1-6fab0288955c"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{denda}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

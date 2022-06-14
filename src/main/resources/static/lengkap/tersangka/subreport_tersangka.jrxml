@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreport_tersangka" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" uuid="587a1883-1f9e-4102-a780-7ce2adcfbc3e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="datamart_kriminalitas_stagging"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="id_person" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from (SELECT distinct a.tipe_dok as jenis_dokumen
+    ,b.nomor_dokumen
+    ,FORMAT(b.tgl_dok,'dd-MM-yyyy') as tgl_dok
+    ,b.satker_mengeluarkan
+    ,b.tempat_kejadian
+    ,a.jenis_kejahatan_pelanggaran
+    ,case when a.[pasal] is null and a.[uu] is null then null 
+    	else concat(case when a.[pasal] is not null then a.[pasal] else null end,', ',
+    		case when a.[uu] is not null then a.[uu] else null end) 
+    	end as uu_dilanggar
+    ,a.[sumber_data]
+  FROM person_document_kejahatan_terlibat a with (nolock)
+  left join document b with (nolock) on a.id_dok = b.id_dok
+where a.sumber_data = 'service_robinops_bareskrim'
+	and a.id_person = $P{id_person} 
+UNION
+SELECT distinct a.tipe_dok as jenis_dokumen
+    ,b.nomor_dokumen
+    ,FORMAT(b.tgl_dok,'dd-MM-yyyy') as tgl_dok
+    ,b.satker_mengeluarkan
+    ,b.tempat_kejadian
+    ,a.jenis_kejahatan_pelanggaran
+    ,case when a.[pasal] is null and a.[uu] is null then null 
+    	else concat(case when a.[pasal] is not null then a.[pasal] else null end,', ',
+    		case when a.[uu] is not null then a.[uu] else null end) 
+    	end as uu_dilanggar
+    ,a.[sumber_data]
+  FROM person_document_kejahatan_terlibat a with (nolock)
+  left join document b with (nolock)
+  on a.id_dok = b.id_dok
+ where a.sumber_data = 'service_kejaksaan'
+ 	and a.id_person =  $P{id_person} 
+ UNION
+ SELECT distinct a.tipe_dok tipe_dokumen
+    ,b.nomor_dokumen
+    ,FORMAT(b.tgl_dok,'dd-MM-yyyy') as tgl_dok
+    ,b.satker_mengeluarkan
+    ,b.tempat_kejadian
+    ,a.jenis_kejahatan_pelanggaran
+    ,a.uu_pasal as uu_dilanggar
+    ,a.[sumber_data]
+  FROM [datamart_kriminalitas_stagging].[dbo].[person_document_kejahatan_terlibat] a with (nolock)
+  left join datamart_kriminalitas_stagging.dbo.document b with (nolock)
+  on a.id_dok = b.id_dok
+  left join datamart_kriminalitas_stagging.dbo.document_extend_pusinafis c with (nolock)
+  on a.id_dok = c.id_dok
+  where a.sumber_data = 'service_pusinafis'
+	and a.id_person =  $P{id_person} 
+) as a order by tgl_dok desc]]>
+	</queryString>
+	<field name="jenis_dokumen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jenis_dokumen"/>
+		<property name="com.jaspersoft.studio.field.label" value="jenis_dokumen"/>
+	</field>
+	<field name="nomor_dokumen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomor_dokumen"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomor_dokumen"/>
+	</field>
+	<field name="tgl_dok" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tgl_dok"/>
+		<property name="com.jaspersoft.studio.field.label" value="tgl_dok"/>
+	</field>
+	<field name="satker_mengeluarkan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="satker_mengeluarkan"/>
+		<property name="com.jaspersoft.studio.field.label" value="satker_mengeluarkan"/>
+	</field>
+	<field name="tempat_kejadian" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tempat_kejadian"/>
+		<property name="com.jaspersoft.studio.field.label" value="tempat_kejadian"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="document"/>
+	</field>
+	<field name="jenis_kejahatan_pelanggaran" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jenis_kejahatan_pelanggaran"/>
+		<property name="com.jaspersoft.studio.field.label" value="jenis_kejahatan_pelanggaran"/>
+	</field>
+	<field name="uu_dilanggar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="uu_dilanggar"/>
+		<property name="com.jaspersoft.studio.field.label" value="uu_dilanggar"/>
+	</field>
+	<field name="sumber_data" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sumber_data"/>
+		<property name="com.jaspersoft.studio.field.label" value="sumber_data"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="0" y="0" width="60" height="30" uuid="6e018f3b-ff39-4ef9-afe0-216130d0b959">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0595e43e-6d55-45dc-8dbe-819114f0f389"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_dokumen}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="60" y="0" width="70" height="30" uuid="4ca8e5b0-9954-4688-8702-ccccfd2f698e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4db8431-30f1-4647-bb84-d27e429b323d"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomor_dokumen}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="130" y="0" width="70" height="30" uuid="c9c99ec9-bb44-44b7-a1b7-19a09303b3ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7757e61c-618e-47b9-80a1-ff80c00a3ef0"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_dok}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="200" y="0" width="70" height="30" uuid="8a62e271-b372-45e9-8081-623398d56130">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1bb4eca6-ead4-44be-8610-f3567656d74d"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{satker_mengeluarkan}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="270" y="0" width="70" height="30" uuid="d8dffee0-c78a-452f-95ec-b54b2e402c30">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7aab9216-5654-4476-9251-ec44c9e403ad"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tempat_kejadian}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="410" y="0" width="70" height="30" uuid="126e1513-a501-4978-9eba-fe6c2a42549d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7ab17a93-d215-43ea-97e6-23b0e6f2df44"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uu_dilanggar}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="480" y="0" width="80" height="30" uuid="972cf076-35c8-4e55-b82a-ac9682c4e48f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a382f2e9-1cbf-4384-b609-923f09753132"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumber_data}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="340" y="0" width="70" height="30" uuid="0e2360e0-aa7e-422e-9127-64c92fd392ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0381aebd-2c46-4138-b677-ef0c5450d768"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="2">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_kejahatan_pelanggaran}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>
