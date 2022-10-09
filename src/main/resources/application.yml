@@ -2,6 +2,22 @@ spring:
    jackson:
       serialization:
          INDENT_OUTPUT: true
+   datasource:
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@128.21.23.31:1521:ajsdb #ajsdbtest
+      username: eka
+      password: eka
+   servlet:
+      multipart:
+         max-file-size: 500MB
+         max-request-size: 500MB
+   mail:
+      host: smtp.gmail.com
+      port: 587
+      username: testingemailcoba327@gmail.com
+      password: Number175039
+      properties.mail.smtp.auth: true
+      properties.mail.smtp.starttls.enable: true
 #   datasource:
 #      url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
 #      username: postgres
@@ -28,4 +44,3 @@ spring:
 #         ddl-auto: update
 server:
    port: 8080
-   
